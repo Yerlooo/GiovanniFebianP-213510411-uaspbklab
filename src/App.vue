@@ -99,4 +99,15 @@ nav ul li a:active {
   transform: scale(0.95);
   background: linear-gradient(to bottom right, #ed0000, #110def);
 }
+
+@media (max-width: 768px) {
+  nav {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  nav ul li {
+    margin-bottom: 10px;
+  }
+}
 </style>
