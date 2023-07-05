@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="app">
     <h2>Tic Tac Toe Widget</h2>
     <div class="board">
       <div v-for="(cell, index) in board" :key="index" class="cell" @click="makeMove(index)">
@@ -78,7 +78,7 @@ export default {
   text-align: center;
 }
 
-h1 {
+h2 {
   font-size: 24px;
   margin-bottom: 20px;
 }
@@ -89,6 +89,7 @@ h1 {
   max-width: 300px;
   margin: 0 auto;
   padding: 10px;
+  box-sizing: border-box;
 }
 
 .cell {
@@ -127,5 +128,21 @@ button:active {
 
 button:focus {
   outline: none;
+}
+
+@media (max-width: 480px) {
+  .board {
+    max-width: 250px;
+  }
+
+  .cell {
+    width: 70px;
+    height: 70px;
+    font-size: 18px;
+  }
+
+  button {
+    font-size: 14px;
+  }
 }
 </style>

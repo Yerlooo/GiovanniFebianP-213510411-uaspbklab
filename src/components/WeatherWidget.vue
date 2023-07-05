@@ -125,7 +125,7 @@ export default {
 .weather-info {
   border: 1px solid #ccc;
   padding: 20px;
-  margin-top: 20px;
+  margin-top: 5px;
   margin-bottom: 20px;
   text-align: center;
   background-color: #f5f5f5;

@@ -1,15 +1,16 @@
 <template>
+  <div>
+    <div class="stopwatchwidget"></div>
+    <h2>Stopwatch Widget</h2>
+    <p>{{ formatTime }}</p>
     <div>
-      <h2>Stopwatch Widget</h2>
-      <p>{{ formatTime }}</p>
-      <div>
-        <button class="start-btn btn" @click="start" :disabled="interval">Start</button>
-        <button class="stop-btn btn" @click="stop" :disabled="!interval">Stop</button>
-        <button class="reset-btn btn" @click="reset">Reset</button>
-      </div>
+      <button class="start-btn btn" @click="start" :disabled="interval">Start</button>
+      <button class="stop-btn btn" @click="stop" :disabled="!interval">Stop</button>
+      <button class="reset-btn btn" @click="reset">Reset</button>
     </div>
-  </template>
-  
+  </div>
+</template>
+
 <style>
 .stopwatch-widget {
   text-align: center;
@@ -69,50 +70,66 @@ p {
   color: #777;
   cursor: not-allowed;
 }
+
+@media (max-width: 768px) {
+  .stopwatch-widget {
+    text-align: center;
+  }
+
+  h2 {
+    margin-left: 0;
+  }
+
+  p {
+    margin-bottom: 10px;
+  }
+
+  .btn {
+    margin-bottom: 10px;
+  }
+}
 </style>
 
-  <script>
-  export default {
-    data() {
-      return {
-        time: 0,
-        interval: null,
-      };
+<script>
+export default {
+  data() {
+    return {
+      time: 0,
+      interval: null,
+    };
+  },
+  computed: {
+    formatTime() {
+      let milliseconds = this.time % 1000;
+      let seconds = Math.floor((this.time / 1000) % 60);
+      let minutes = Math.floor((this.time / (1000 * 60)) % 60);
+      let hours = Math.floor(this.time / (1000 * 60 * 60));
+
+      return `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}.${milliseconds.toString().padStart(3, "0")}`;
     },
-    computed: {
-      formatTime() {
-        let milliseconds = this.time % 1000;
-        let seconds = Math.floor((this.time / 1000) % 60);
-        let minutes = Math.floor((this.time / (1000 * 60)) % 60);
-        let hours = Math.floor((this.time / (1000 * 60 * 60)));
-  
-        return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds
-          .toString()
-          .padStart(2, '0')}.${milliseconds.toString().padStart(3, '0')}`;
-      },
+  },
+  methods: {
+    start() {
+      if (!this.interval) {
+        this.interval = setInterval(() => {
+          this.time += 10;
+        }, 10);
+      }
     },
-    methods: {
-      start() {
-        if (!this.interval) {
-          this.interval = setInterval(() => {
-            this.time += 10;
-          }, 10);
-        }
-      },
-      stop() {
-        if (this.interval) {
-          clearInterval(this.interval);
-          this.interval = null;
-        }
-      },
-      reset() {
-        this.time = 0;
+    stop() {
+      if (this.interval) {
         clearInterval(this.interval);
         this.interval = null;
-      },
+      }
     },
-    beforeUnmount() {
+    reset() {
+      this.time = 0;
       clearInterval(this.interval);
+      this.interval = null;
     },
-  };
-  </script>
+  },
+  beforeUnmount() {
+    clearInterval(this.interval);
+  },
+};
+</script>
